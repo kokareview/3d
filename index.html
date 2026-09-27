@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FelineAPI</title>
+<style>
+    * {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><defs><radialGradient id='g' cx='40%25' cy='30%25' r='70%25'><stop offset='0%25' stop-color='%23b3ffe6'/><stop offset='50%25' stop-color='%2300ffcc'/><stop offset='100%25' stop-color='%2300664d'/></radialGradient></defs><path d='M4 2 L4 26 L11 19 L16 30 L20 28 L15 17 L25 16 Z' fill='url(%23g)' stroke='%23003326' stroke-width='1.2' stroke-linejoin='round'/><circle cx='7' cy='6' r='1.6' fill='%23ffffff' opacity='0.9'/></svg>") 4 2, auto;
+    }
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 50%, #0a1f1d 0%, #041211 55%, #000 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1400px;
+        font-family: 'Arial Black', Impact, sans-serif;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 50% 50%,
+            rgba(0, 255, 204, 0.13) 0%,
+            rgba(0, 255, 204, 0.04) 30%,
+            transparent 60%);
+        animation: halo 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    @keyframes halo {
+        0%, 100% { transform: scale(1);    opacity: 0.7; }
+        50%      { transform: scale(1.2);  opacity: 1;   }
+    }
+    .scene {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform-style: preserve-3d;
+        animation: float 5s ease-in-out infinite alternate;
+        z-index: 1;
+    }
+    .text3d {
+        position: relative;
+        font-size: min(20vw, 42vh);
+        font-weight: 900;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0;
+        line-height: 1;
+        white-space: nowrap;
+
+        background: linear-gradient(
+            100deg,
+            #00ffcc 0%,
+            #33ffdd 15%,
+            #00e6b8 30%,
+            #66ffe0 45%,
+            #00cc99 60%,
+            #00b386 75%,
+            #00ffcc 100%
+        );
+        background-size: 250% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: #003326;
+        color: transparent;
+        animation: shimmer 5s linear infinite;
+    }
+    .text3d::before {
+        content: "FelineAPI";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        -webkit-text-fill-color: #00241c;
+        color: #00241c;
+        text-shadow:
+            0 1px 0 #00cc99,
+            0 2px 0 #00c08f,
+            0 3px 0 #00b386,
+            0 4px 0 #00a67c,
+            0 5px 0 #009973,
+            0 6px 0 #008c69,
+            0 7px 0 #008060,
+            0 8px 0 #007356,
+            0 9px 0 #00664d,
+            0 10px 0 #005943,
+            0 11px 0 #004d39,
+            0 12px 0 #00402f,
+            0 13px 0 #003326,
+            0 14px 0 #00291e,
+            0 15px 0 #00241c,
+            0 20px 18px rgba(0, 0, 0, 0.7),
+            0 28px 45px rgba(0, 255, 204, 0.3);
+        animation: depthShift 5s ease-in-out infinite alternate;
+    }
+    .text3d::after {
+        content: "FelineAPI";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(0, 255, 204, 0.144);
+        text-shadow:
+            0 0 12px rgba(0, 255, 204, 0.7),
+            0 0 30px rgba(0, 255, 204, 0.45);
+        pointer-events: none;
+        animation: outlinePulse 3s ease-in-out infinite;
+    }
+    @keyframes outlinePulse {
+        0%, 100% { opacity: 0.75; }
+        50%      { opacity: 1; }
+    }
+    @keyframes shimmer {
+        0%   { background-position: 0% 50%; }
+        100% { background-position: 250% 50%; }
+    }
+    @keyframes float {
+        0% {
+            transform: rotateX(13deg) rotateY(-13deg) translateY(0);
+        }
+        100% {
+            transform: rotateX(20deg) rotateY(13deg) translateY(-18px);
+        }
+    }
+    @keyframes depthShift {
+        0% {
+            text-shadow:
+                0 1px 0 #00cc99,
+                0 2px 0 #00c08f,
+                0 3px 0 #00b386,
+                0 4px 0 #00a67c,
+                0 5px 0 #009973,
+                0 6px 0 #008c69,
+                0 7px 0 #008060,
+                0 8px 0 #007356,
+                0 9px 0 #00664d,
+                0 10px 0 #005943,
+                0 11px 0 #004d39,
+                0 12px 0 #00402f,
+                0 13px 0 #003326,
+                0 14px 0 #00291e,
+                0 15px 0 #00241c,
+                0 20px 18px rgba(0, 0, 0, 0.7),
+                0 28px 45px rgba(0, 255, 204, 0.3);
+        }
+        100% {
+            text-shadow:
+                -1px 1px 0 #00cc99,
+                -2px 2px 0 #00c08f,
+                -3px 3px 0 #00b386,
+                -4px 4px 0 #00a67c,
+                -5px 5px 0 #009973,
+                -6px 6px 0 #008c69,
+                -7px 7px 0 #008060,
+                -8px 8px 0 #007356,
+                -9px 9px 0 #00664d,
+                -10px 10px 0 #005943,
+                -11px 11px 0 #004d39,
+                -12px 12px 0 #00402f,
+                -13px 13px 0 #003326,
+                -14px 14px 0 #00291e,
+                -15px 15px 0 #00241c,
+                -22px 20px 22px rgba(0, 0, 0, 0.65),
+                -32px 32px 55px rgba(0, 255, 204, 0.35);
+        }
+    }
+    .sparkles {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+    }
+    .sparkles svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+    }
+    .sparkle {
+        fill: #aaffee;
+        opacity: 0;
+        animation: twinkle 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 6px #00ffcc83);
+    }
+    .sparkle:nth-child(1)  { animation-delay: 0s;    }
+    .sparkle:nth-child(2)  { animation-delay: 0.6s;  }
+    .sparkle:nth-child(3)  { animation-delay: 1.2s;  }
+    .sparkle:nth-child(4)  { animation-delay: 1.8s;  }
+    .sparkle:nth-child(5)  { animation-delay: 2.4s;  }
+    .sparkle:nth-child(6)  { animation-delay: 3.0s;  }
+    .sparkle:nth-child(7)  { animation-delay: 0.3s;  }
+    .sparkle:nth-child(8)  { animation-delay: 1.5s;  }
+    @keyframes twinkle {
+        0%, 100% { opacity: 0;    transform: scale(0.5); }
+        50%      { opacity: 0.95; transform: scale(1.2); }
+    }
+    ::selection {
+        background: #00ffcc;
+        color: #00241c;
+        text-shadow: 0 0 15px #00ffcc, 0 0 30px #00b386;
+    }
+    ::-moz-selection {
+        background: #00ffcc;
+        color: #00241c;
+        text-shadow: 0 0 15px #00ffcc, 0 0 30px #00b386;
+    }
+</style>
+</head>
+<body>
+    <div class="scene">
+        <h1 class="text3d">FelineAPI</h1>
+    </div>
+
+    <div class="sparkles" aria-hidden="true">
+        <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+            <path class="sparkle" d="M100 80  L104 90 L114 94 L104 98 L100 108 L96 98 L86 94 L96 90 Z"/>
+            <path class="sparkle" d="M900 110 L904 120 L914 124 L904 128 L900 138 L896 128 L886 124 L896 120 Z"/>
+            <path class="sparkle" d="M180 520 L183 528 L191 531 L183 534 L180 542 L177 534 L169 531 L177 528 Z"/>
+            <path class="sparkle" d="M820 500 L823 508 L831 511 L823 514 L820 522 L817 514 L809 511 L817 508 Z"/>
+            <path class="sparkle" d="M500 40  L503 48 L511 51 L503 54 L500 62 L497 54 L489 51 L497 48 Z"/>
+            <path class="sparkle" d="M60 320  L63 328 L71 331 L63 334 L60 342 L57 334 L49 331 L57 328 Z"/>
+            <path class="sparkle" d="M950 380 L953 388 L961 391 L953 394 L950 402 L947 394 L939 391 L947 388 Z"/>
+            <path class="sparkle" d="M300 60  L302 66 L308 68 L302 70 L300 76 L298 70 L292 68 L298 66 Z"/>
+            <path class="sparkle" d="M700 550 L703 558 L711 561 L703 564 L700 572 L697 564 L689 561 L697 558 Z"/>
+            <path class="sparkle" d="M400 180 L402 186 L408 188 L402 190 L400 196 L398 190 L392 188 L398 186 Z"/>
+        </svg>
+    </div>
+</body>
+</html>
